@@ -12,12 +12,12 @@ import os
 #from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 #from langchain.vectorstores import FAISS
-from langchain.vectorstores import Pinecone  
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.callbacks import LLMonitorCallbackHandler
 import pinecone
+from langchain.vectorstores import Pinecone  
 
 
 def initialize_session_state():
@@ -34,9 +34,13 @@ def initialize_session_state():
 
 def get_conversation_chain(selected_index):
     print("get conversation chain called")
+    #check for password
+    if st.session_state.password != st.secrets.APP_PASSWORD:
+        st.warning("Incorrect Password")
+        return
     handler = LLMonitorCallbackHandler()
     embeddings = OpenAIEmbeddings()
-    #pinecone.init(environment='gcp-starter')
+    pinecone.init(environment='gcp-starter')
     index_name = selected_index
     vector_db = Pinecone.from_existing_index(index_name, embeddings)
     llm = ChatOpenAI(model = 'gpt-3.5-turbo-1106', callbacks=[handler])
@@ -82,7 +86,7 @@ def submit():
 def handle_user_question(user_question):
     print("handle user question called")
     if 'chain' not in st.session_state:
-        st.warning("Conversation chain not set. Please intiate a chain")
+        st.warning("No Agent is selected. Please select agent, enter password and press go")
         return
 
     mychain = st.session_state.chain
@@ -119,6 +123,7 @@ def main():
         ["wmc-faq", "dummy"],
         index=None,
         placeholder="Choose wmc-faq and click Go")
+    sideb.text_input("Password", type = "password", placeholder="Enter Password", key='password')
     if st.sidebar.button("Go"):
         with st.spinner("Connecting to vector dB"):
             st.session_state.chain = get_conversation_chain(selected_index)

@@ -1,0 +1,6 @@
+# these files will not be pushed to git
+secrets.toml
+
+#Data folder containing temporary pdf files
+data/
+
