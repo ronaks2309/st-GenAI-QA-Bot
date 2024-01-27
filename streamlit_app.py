@@ -120,7 +120,7 @@ def main():
     #st.sidebar.title("Select Pinecone Index")
     selected_index = sideb.selectbox(
         "Select an agent", 
-        ["wmc-faq", "dummy"],
+        ["wmc-faq", "dummy-1", "dummy-2"],
         index=None,
         placeholder="Choose wmc-faq and click Go")
     sideb.text_input("Password", type = "password", placeholder="Enter Password", key='password')
