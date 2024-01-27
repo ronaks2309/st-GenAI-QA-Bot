@@ -1,0 +1,11 @@
+langchain
+openai==0.28.1
+streamlit
+python-dotenv
+tiktoken
+cohere
+faiss-cpu
+streamlit_chat
+llmonitor
+pinecone-client
+pypdf
