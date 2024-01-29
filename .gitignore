@@ -1,6 +1,6 @@
 # these files will not be pushed to git
 secrets.toml
-
+pinecone_test.py
 #Data folder containing temporary pdf files
 #data/
 
