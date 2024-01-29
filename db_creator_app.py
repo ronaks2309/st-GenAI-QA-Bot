@@ -12,7 +12,8 @@ from langchain.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone  
-import pinecone
+from pinecone import Pinecone as pinecone_Pinecone
+from pinecone import ServerlessSpec
 
 #### PREPARATION #### 
 def create_vector_index_from_pdf(uploaded_files,password):
@@ -51,19 +52,21 @@ def get_chunks(data_folder):
 def get_vector_db(text_chunks):
     print("get vector db called")
     embeddings = OpenAIEmbeddings()
-    pinecone.init(environment='gcp-starter')
+    pc = pinecone_Pinecone(api_key=st.secrets["PINECONE_API_KEY"])
     new_index = st.session_state.new_index
-    pinecone.create_index(name=new_index, metric="cosine", dimension=1536)
+    pc.create_index(name=new_index, metric="cosine", dimension=1536,
+                    spec=ServerlessSpec(cloud='aws', region='us-west-2') 
+                    )
     pinecone_db = Pinecone.from_documents(text_chunks, embeddings, index_name=new_index)
     return pinecone_db
 
 def check_index():
-    pinecone.init(environment='gcp-starter')
+    pc = pinecone_Pinecone(api_key=st.secrets["PINECONE_API_KEY"])
     index_name = st.session_state.new_index
     if index_name == "":
         st.warning('Agent name cannot be blank', icon="⚠️")
         return "Invalid"
-    elif index_name in pinecone.list_indexes():
+    elif index_name in pc.list_indexes():
         st.warning('Agent already exists', icon="⚠️")
         return "Invalid"
     else: 
