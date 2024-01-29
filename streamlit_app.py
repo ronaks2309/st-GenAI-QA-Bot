@@ -16,9 +16,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.callbacks import LLMonitorCallbackHandler
-import pinecone
 from langchain.vectorstores import Pinecone  
-
+from pinecone import Pinecone as pinecone_Pinecone
+from pinecone import ServerlessSpec
 
 def initialize_session_state():
     if 'history' not in st.session_state:
@@ -40,7 +40,7 @@ def get_conversation_chain(selected_index):
         return
     handler = LLMonitorCallbackHandler()
     embeddings = OpenAIEmbeddings()
-    pinecone.init(environment='gcp-starter')
+    pc = pinecone_Pinecone(api_key=st.secrets["PINECONE_API_KEY"])
     index_name = selected_index
     vector_db = Pinecone.from_existing_index(index_name, embeddings)
     llm = ChatOpenAI(model = 'gpt-3.5-turbo-1106', callbacks=[handler])
@@ -66,7 +66,7 @@ def display_chats():
     container = st.container()
     
     with container:
-        st.text_input("Question:", placeholder="Ask about your PDF", key='input', on_change = submit)
+        st.text_input("Question:", placeholder="Ask a question", key='input', on_change = submit)
 
 
     if st.session_state['generated']:
@@ -108,19 +108,29 @@ def get_unique_references(src_docs):
     unique_ref_text = "\n".join(unique_src_list)
     return unique_ref_text
 
+def get_pinecone_index_list():
+   pc = pinecone_Pinecone(api_key=st.secrets["PINECONE_API_KEY"])
+   index_names=[]
+   active_indexes = pc.list_indexes()
+   for indexes in active_indexes:
+       print(indexes['name'])
+       index_names.append(indexes['name']) 
+   return index_names
+    
 
 def main():
     print("Main method called")
     load_dotenv()
     initialize_session_state()
     #get_conversation_chain('wmc-faq')
-    st.set_page_config(page_title="WMC FAQs with LLM", page_icon = ":books:")
-    st.title("WMC FAQs with LLMs :books:")
+    st.set_page_config(page_title="WMC GenAI Playground", page_icon = ":seedling:")
+    st.title("WMC GenAI Playground :seedling:")
     sideb = st.sidebar
     #st.sidebar.title("Select Pinecone Index")
     selected_index = sideb.selectbox(
-        "Select an agent", 
-        ["wmc-faq", "dummy-1", "dummy-2"],
+        "Select an agent",
+        # Need to fetch this list from the Pinecone Index 
+        options = get_pinecone_index_list() , #["wmc-faq", "wmc-data-gov", "wmc-sales-presentations","wmc-creatives-builder", "wmc-test1"],
         index=None,
         placeholder="Choose wmc-faq and click Go")
     sideb.text_input("Password", type = "password", placeholder="Enter Password", key='password')
