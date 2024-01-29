@@ -9,3 +9,4 @@ streamlit_chat
 llmonitor
 pinecone-client
 pypdf
+lida

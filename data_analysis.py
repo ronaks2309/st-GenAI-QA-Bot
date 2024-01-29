@@ -3,6 +3,7 @@ from lida import Manager, TextGenerationConfig, llm
 from lida.datamodel import Goal
 import os
 import pandas as pd
+from langchain.callbacks import LLMonitorCallbackHandler
 
 
 # make data dir if it doesn't exist
@@ -152,13 +153,14 @@ if openai_key:
 
 # Step 3 - Generate data summary
 if openai_key and selected_dataset and selected_method:
+    handler = LLMonitorCallbackHandler()
     lida = Manager(text_gen=llm("openai", api_key=openai_key))
     textgen_config = TextGenerationConfig(
         n=1,
         temperature=temperature,
         model=selected_model,
         use_cache=use_cache)
-
+            
     st.write("### Summary")
     # **** lida.summarize *****
     summary = lida.summarize(
