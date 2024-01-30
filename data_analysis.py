@@ -199,7 +199,7 @@ if openai_key and selected_dataset and selected_method:
             min_value=1,
             max_value=10,
             value=4)
-        own_goal = st.sidebar.checkbox("Add Your Own Insight")
+        own_goal = st.sidebar.checkbox("Ask Your Own Question")
 
         # **** lida.goals *****
         goals = lida.goals(summary, n=num_goals, textgen_config=textgen_config)
@@ -209,7 +209,7 @@ if openai_key and selected_dataset and selected_method:
         goal_questions = [goal.question for goal in goals]
 
         if own_goal:
-            user_goal = st.sidebar.text_input("Describe Your Insight")
+            user_goal = st.sidebar.text_input("Describe Your Question")
 
             if user_goal:
 

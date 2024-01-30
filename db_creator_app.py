@@ -85,7 +85,7 @@ def main():
     col1.text_input("Agent Name", label_visibility='collapsed', placeholder="Enter name for New Agent", key='new_index')
     col2.button("Check", on_click= check_index)
     
-    st.text_area("Agent Description", placeholder="Enter a short description of your agent")
+    st.text_input("Agent Description", placeholder="Enter a short description of your agent")
     
     st.text_area("Agent Instructions",placeholder="Enter Special instructions that you want the agent to follow.\n For ex. Always be courteous. You replies should only be based on the domain knowledge provided. If you don't know the answer, guide the user to speak with a WMC Associate. Do not give financial advice.")
 
