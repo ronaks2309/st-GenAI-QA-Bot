@@ -89,7 +89,7 @@ def main():
     
     st.text_area("Agent Instructions",placeholder="Enter Special instructions that you want the agent to follow.\n For ex. Always be courteous. You replies should only be based on the domain knowledge provided. If you don't know the answer, guide the user to speak with a WMC Associate. Do not give financial advice.")
 
-    uploaded_files = st.file_uploader("Upload Domain Knowledge files", accept_multiple_files=True)
+    uploaded_files = st.file_uploader("Upload Domain Knowledge files (only supports PDF currently)", accept_multiple_files=True)
     
     st.text_input("Enter Password", type = "password", placeholder="Enter Password", key='password')    
     
