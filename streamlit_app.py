@@ -54,7 +54,7 @@ def get_conversation_chain(selected_index):
         callbacks=[handler],
         #return_source_documents = True
         )
-    st.success("Pinecone index selected: "+index_name)
+    st.success("Custom Agent selected: "+index_name)
     return conversation_chain
 
 
@@ -124,7 +124,7 @@ def main():
     initialize_session_state()
     #get_conversation_chain('wmc-faq')
     st.set_page_config(page_title="WMC GenAI Playground", page_icon = ":seedling:")
-    st.title("WMC DMI-Agents Playground :seedling:")
+    st.subheader("WMC DMI-Agents Playground :seedling:")
     sideb = st.sidebar
     #st.sidebar.title("Select Pinecone Index")
     selected_index = sideb.selectbox(

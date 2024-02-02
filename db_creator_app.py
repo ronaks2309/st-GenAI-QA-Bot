@@ -87,7 +87,7 @@ def main():
     
     #st.text_input("Agent Description", placeholder="Enter a short description of your agent")
     
-    st.text_area("Instructions",placeholder="You are a courteous and helpful custome support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Do not give financial advice.")
+    st.text_area("Instructions",placeholder="You are a courteous and helpful customer support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Never give financial advice.")
 
     src = st.radio("Knowledge", ["Onedrive Folder", "Confluence pages", "Big Query Datasets", "Slack Archives"], horizontal = True)
     
