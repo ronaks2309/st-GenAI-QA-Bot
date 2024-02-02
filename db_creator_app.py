@@ -79,7 +79,7 @@ def main():
     st.set_page_config(page_title="Custom Agents Builder", page_icon = ":books:")
     sideb = st.sidebar
     #st.title("Create a vector index from knowledge files :database:")
-    st.subheader("Build your WMC Conversational Agent")
+    st.subheader("Build your Custom DMI Agent")
     
     col1, col2 = st.columns(2)
     col1.text_input("Agent Name", label_visibility='collapsed', placeholder="Enter name for New Agent", key='new_index')

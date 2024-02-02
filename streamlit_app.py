@@ -124,7 +124,7 @@ def main():
     initialize_session_state()
     #get_conversation_chain('wmc-faq')
     st.set_page_config(page_title="WMC GenAI Playground", page_icon = ":seedling:")
-    st.title("WMC GenAI Playground :seedling:")
+    st.title("WMC DMI-Agents Playground :seedling:")
     sideb = st.sidebar
     #st.sidebar.title("Select Pinecone Index")
     selected_index = sideb.selectbox(
