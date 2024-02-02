@@ -1,6 +1,7 @@
 # these files will not be pushed to git
 secrets.toml
 pinecone_test.py
+lida_example.py
 #Data folder containing temporary pdf files
 #data/
 

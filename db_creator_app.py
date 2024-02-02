@@ -79,18 +79,22 @@ def main():
     st.set_page_config(page_title="Custom Agents Builder", page_icon = ":books:")
     sideb = st.sidebar
     #st.title("Create a vector index from knowledge files :database:")
-    st.subheader("Starter Kit 1: Build your WMC Conversational Agent")
+    st.subheader("Build your WMC Conversational Agent")
     
     col1, col2 = st.columns(2)
     col1.text_input("Agent Name", label_visibility='collapsed', placeholder="Enter name for New Agent", key='new_index')
-    col2.button("Check", on_click= check_index)
+    col2.button("Check Availability", on_click= check_index)
     
-    st.text_input("Agent Description", placeholder="Enter a short description of your agent")
+    #st.text_input("Agent Description", placeholder="Enter a short description of your agent")
     
-    st.text_area("Agent Instructions",placeholder="Enter Special instructions that you want the agent to follow.\n For ex. Always be courteous. You replies should only be based on the domain knowledge provided. If you don't know the answer, guide the user to speak with a WMC Associate. Do not give financial advice.")
+    st.text_area("Instructions",placeholder="You are a courteous and helpful custome support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Do not give financial advice.")
 
-    uploaded_files = st.file_uploader("Upload Domain Knowledge files (only supports PDF currently)", accept_multiple_files=True)
+    src = st.radio("Knowledge", ["Onedrive Folder", "Confluence pages", "Big Query Datasets", "Slack Archives"], horizontal = True)
     
+    uploaded_files = st.file_uploader("Provide the path to "+ src, accept_multiple_files=True, key = 1)
+    
+    st.text_area("Conversation Starters (optional)",placeholder="How to reset password?,\nHow to setup search campaign?")
+
     st.text_input("Enter Password", type = "password", placeholder="Enter Password", key='password')    
     
     if st.button("Create"):
@@ -98,8 +102,46 @@ def main():
             pinecone_index = create_vector_index_from_pdf(uploaded_files,st.session_state.password)
             st.success("Agent created successfully !!")
     
-    
 
+
+
+    # hide_label = (
+    #     """
+    # <style>
+    #     div[data-testid="stFileUploader"]>section[data-testid="stFileUploadDropzone"]>button[data-testid="baseButton-secondary"] {
+    #     color:white;
+    #     }
+    #     div[data-testid="stFileUploader"]>section[data-testid="stFileUploadDropzone"]>button[data-testid="baseButton-secondary"]::after {
+    #         content: "BUTTON_TEXT";
+    #         color:black;
+    #         display: block;
+    #         position: absolute;
+    #     }
+    #     div[data-testid="stFileDropzoneInstructions"]>div>span {
+    #     visibility:hidden;
+    #     }
+    #     div[data-testid="stFileDropzoneInstructions"]>div>span::after {
+    #     content:"INSTRUCTIONS_TEXT";
+    #     visibility:visible;
+    #     display:block;
+    #     }
+    #     div[data-testid="stFileDropzoneInstructions"]>div>small {
+    #     visibility:hidden;
+    #     }
+    #     div[data-testid="stFileDropzoneInstructions"]>div>small::before {
+    #     content:"FILE_LIMITS";
+    #     visibility:visible;
+    #     display:block;
+    #     }
+    # </style>
+    # """.replace("BUTTON_TEXT", "")
+    #     .replace("INSTRUCTIONS_TEXT", "Instr")
+    #     .replace("FILE_LIMITS", "Limits")
+    # )
+
+    # st.markdown(hide_label, unsafe_allow_html=True)
+
+    # file_uploader = st.file_uploader(label="Upload a file")
 
 
 if __name__ == '__main__':
