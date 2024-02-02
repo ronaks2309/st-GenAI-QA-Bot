@@ -1,5 +1,5 @@
 import streamlit as st
-from lida_example import Manager, TextGenerationConfig, llm
+from lida import Manager, TextGenerationConfig, llm
 from lida.datamodel import Goal
 import os
 import pandas as pd
