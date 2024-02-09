@@ -138,7 +138,7 @@ def main():
     initialize_session_state()
     #get_conversation_chain('wmc-faq')
     st.set_page_config(page_title="WMC GenAI Playground", page_icon = ":seedling:")
-    st.subheader("WMC DMI-Agents Playground :seedling:")
+    st.subheader("WMC Chat-Agents Playground :seedling:")
     sideb = st.sidebar
     #st.sidebar.title("Select Pinecone Index")
     agent_list = get_pinecone_index_list()

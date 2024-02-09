@@ -24,7 +24,7 @@ st.set_page_config(
     page_icon="📊",
 )
 
-st.subheader("WMC Data Insights Playground :seedling:")
+st.subheader("WMC Data-Insight-Agents Playground :seedling:")
 
 
 # Step 1 - Get OpenAI API key
