@@ -79,29 +79,53 @@ def main():
     st.set_page_config(page_title="Custom Agents Builder", page_icon = ":books:")
     sideb = st.sidebar
     #st.title("Create a vector index from knowledge files :database:")
-    st.subheader("Build your Custom DMI Agent")
+    st.subheader("Build your Custom Agent")
     
     col1, col2 = st.columns(2)
-    col1.text_input("Agent Name", label_visibility='collapsed', placeholder="Enter name for New Agent", key='new_index')
-    col2.button("Check Availability", on_click= check_index)
+    col1.text_input("Agent Name", label_visibility='visible', placeholder="Enter name for New Agent", key='new_index')
+    #col2.button("Check Availability", on_click= check_index)
     
     #st.text_input("Agent Description", placeholder="Enter a short description of your agent")
     
-    st.text_area("Instructions",placeholder="You are a courteous and helpful customer support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Never give financial advice.")
+    #st.text_area("Instructions",placeholder="You are a courteous and helpful customer support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Never give financial advice.")
 
-    src = st.radio("Knowledge", ["Onedrive Folder", "Confluence pages", "Big Query Datasets", "Slack Archives"], horizontal = True)
+    src = st.radio("Domain Knowledge", ["Web/Confluence", "Database", "Onedrive", "Slack", "JIRA", "Custom (advance)"], horizontal = True)
     
-    uploaded_files = st.file_uploader("Provide the path to "+ src, accept_multiple_files=True, key = 1)
+    if src:
+        st.info(f":red[Please select Onedrive & upload PDF(s). Multiple files are okay. Other sources are WIP]")
+    uploaded_files = st.file_uploader("Provide the path to "+ src, accept_multiple_files=True, key = 1, type = 'pdf')
     
-    st.text_area("Conversation Starters (optional)",placeholder="How to reset password?,\nHow to setup search campaign?")
+    st.text_input("Enter Password", type = "password", placeholder="Enter Password", key='password')   
 
-    st.text_input("Enter Password", type = "password", placeholder="Enter Password", key='password')    
-    
+    with st.expander("Advance Settings (optional)"):
+        st.write(f":red[Advance Settings are currently not functional. Only placeholders]")
+        st.text_area("Instructions",placeholder="You are a courteous and helpful customer support agent. Your replies should strictly be based on the contex provided. If you don't know the answer, guide the user to speak with a WMC Associate. Never give financial advice.")
+        st.text_area("Conversation Starters",placeholder="How to reset password?,\nHow to setup search campaign?")
+        st.radio("Element LLM Model", ["gpt 3.5 turbo", "gpt 4", "Llama 2", "Mistral 7B", "Custom"], horizontal = True, key = 'llm')
+        st.checkbox("Enable function calling")
+        st.checkbox("Enable External APIs")
+ 
+
+
+
+    st.write('')
+    st.write('')
+    st.write('')
+    st.checkbox("I have read the Walmart  GenAI Security & Legal Policies. <placeholder for URL to Legal policies>")
+
     if st.button("Create"):
         with st.spinner("Processing"):
             pinecone_index = create_vector_index_from_pdf(uploaded_files,st.session_state.password)
             st.success("Agent created successfully !!")
     
+    st.sidebar.write("\n\n\n\n")
+    st.sidebar.write("### Caution")
+    st.sidebar.write("Experimental prototype can have bugs")
+    st.sidebar.write("NOT SECURE.AVOID PRIVATE DATA")
+    st.sidebar.write("Documentation: coming soon...")
+    st.sidebar.write("Demo Video: https://youtu.be/FYkxdvGPo0k")
+    st.sidebar.write("Questions/Feedback? Reach out to Ronak Shah")
+ 
 
 
 

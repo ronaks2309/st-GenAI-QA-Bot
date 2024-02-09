@@ -10,3 +10,6 @@ llmonitor
 pinecone-client
 pypdf
 lida
+torch
+lida[transformers]
+streamlit_feedback

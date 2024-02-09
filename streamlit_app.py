@@ -19,13 +19,16 @@ from langchain.callbacks import LLMonitorCallbackHandler
 from langchain.vectorstores import Pinecone  
 from pinecone import Pinecone as pinecone_Pinecone
 from pinecone import ServerlessSpec
+from streamlit_feedback import streamlit_feedback
+
+
 
 def initialize_session_state():
     if 'history' not in st.session_state:
         st.session_state['history'] = []
 
     if 'generated' not in st.session_state:
-        st.session_state['generated'] = ["Hello! Ask me anything about 🤗"]
+        st.session_state['generated'] = ["Hello! Ask me a question 🤗"]
 
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
@@ -69,12 +72,23 @@ def display_chats():
         st.text_input("Question:", placeholder="Ask a question", key='input', on_change = submit)
 
 
-    if st.session_state['generated']:
-        with reply_container:
-            for i in range(len(st.session_state['generated'])):
-                message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
-                message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji") 
+    # if st.session_state['generated']:
+    #     with reply_container:
+    #         for i in range(len(st.session_state['generated'])):
+    #             message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
+    #             message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji") 
     
+    if st.session_state['generated']:
+         with reply_container:
+             for i in range(len(st.session_state['generated'])):
+                with st.chat_message("user"):
+                    st.write(st.session_state["past"][i])
+                with st.chat_message("assistant"):
+                    st.write(st.session_state["generated"][i]) 
+                    if i == len(st.session_state['generated'])-1:
+                        streamlit_feedback(feedback_type="thumbs",optional_text_label="[Optional] Please provide an explanation",align="flex-start")
+
+
 def submit():
     print ("Submit method called")
     st.session_state.user_question = st.session_state.input
@@ -127,10 +141,15 @@ def main():
     st.subheader("WMC DMI-Agents Playground :seedling:")
     sideb = st.sidebar
     #st.sidebar.title("Select Pinecone Index")
+    agent_list = get_pinecone_index_list()
+    agent_list.append("wmc-data-governance (placeholder)")
+    agent_list.append("wmc-data-enablement (placeholder)")
+    agent_list.append("wmc-eoc-insights (placeholder)")
+    agent_list.append("wmc-onboarding (placeholder)")
     selected_index = sideb.selectbox(
         "Select an agent",
         # Need to fetch this list from the Pinecone Index 
-        options = get_pinecone_index_list() , #["wmc-faq", "wmc-data-gov", "wmc-sales-presentations","wmc-creatives-builder", "wmc-test1"],
+        options = agent_list , #["wmc-faq", "wmc-data-gov", "wmc-sales-presentations","wmc-creatives-builder", "wmc-test1"],
         index=None,
         placeholder="Choose wmc-faq and click Go")
     sideb.text_input("Password", type = "password", placeholder="Enter Password", key='password')
@@ -139,9 +158,18 @@ def main():
             st.session_state.chain = get_conversation_chain(selected_index)
     if st.sidebar.button("Clear History"):
         st.session_state['history'] = []
-        st.session_state['generated'] = ["Hello! Ask me anything about 🤗"]
+        st.session_state['generated'] = ["Hello! Ask me a question 🤗"]
         st.session_state['past'] = ["Hey! 👋"]
+    st.sidebar.write("\n\n\n\n")
+    st.sidebar.write("### Caution")
+    st.sidebar.write("Experimental prototype can have bugs")
+    st.sidebar.write("NOT SECURE.AVOID PRIVATE DATA")
+    st.sidebar.write("Documentation: coming soon...")
+    st.sidebar.write("Demo Video: https://youtu.be/FYkxdvGPo0k")
+    st.sidebar.write("Questions/Feedback? Reach out to Ronak Shah")
+
     
+
     display_chats()
 
 
