@@ -91,11 +91,12 @@ secret_password = st.sidebar.text_input("Password", type = "password", placehold
 st.sidebar.button("Go")
 st.sidebar.write("\n\n\n\n")
 st.sidebar.write("### Caution")
-st.sidebar.write("Experimental prototype can have bugs")
-st.sidebar.write("NOT SECURE.AVOID PRIVATE DATA")
+st.sidebar.write("Experimental prototype may have bugs")
+st.sidebar.write(f":red[NOT SECURE.AVOID PRIVATE DATA]")
 st.sidebar.write("Documentation: coming soon...")
-st.sidebar.write("Demo Video: https://youtu.be/FYkxdvGPo0k")
-st.sidebar.write("Questions/Feedback? Reach out to Ronak Shah")
+st.sidebar.write("Demo: https://youtu.be/FYkxdvGPo0k")
+st.sidebar.write("Thank you for testing!")
+st.sidebar.write("Please provide feedback to Ronak")
 
 if secret_password != st.secrets.APP_PASSWORD:
     st.warning("Password missing or incorrect")

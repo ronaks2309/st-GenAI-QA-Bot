@@ -2,6 +2,7 @@
 secrets.toml
 pinecone_test.py
 lida_example.py
+lida_app.py
 #Data folder containing temporary pdf files
 #data/
 
