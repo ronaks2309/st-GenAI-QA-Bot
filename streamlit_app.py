@@ -151,7 +151,7 @@ def main():
         # Need to fetch this list from the Pinecone Index 
         options = agent_list , #["wmc-faq", "wmc-data-gov", "wmc-sales-presentations","wmc-creatives-builder", "wmc-test1"],
         index=None,
-        placeholder="Choose wmc-faq and click Go")
+        placeholder="Choose agent")
     sideb.text_input("Password", type = "password", placeholder="Enter Password", key='password')
     if st.sidebar.button("Go"):
         with st.spinner("Connecting to vector dB"):
