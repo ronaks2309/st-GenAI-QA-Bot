@@ -96,7 +96,7 @@ st.sidebar.write(f":red[NOT SECURE.AVOID PRIVATE DATA]")
 st.sidebar.write("Documentation: coming soon...")
 st.sidebar.write("Demo: https://youtu.be/FYkxdvGPo0k")
 st.sidebar.write("Thank you for testing!")
-st.sidebar.write("Please provide feedback to Ronak")
+st.sidebar.write("Questions/Feedback? Reach out to Ronak")
 
 if secret_password != st.secrets.APP_PASSWORD:
     st.warning("Password missing or incorrect")

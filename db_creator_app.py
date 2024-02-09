@@ -125,7 +125,7 @@ def main():
     st.sidebar.write("Documentation: coming soon...")
     st.sidebar.write("Demo: https://youtu.be/FYkxdvGPo0k")
     st.sidebar.write("Thank you for testing!")
-    st.sidebar.write("Please provide feedback to Ronak")
+    st.sidebar.write("Questions/Feedback? Reach out to Ronak")
 
 
 
